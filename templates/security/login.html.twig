@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - Plateforme Médicale{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <a href="{{ path('app_home') }}" style="text-decoration: none; color: inherit;">
+                    <div class="login-logo">🫀</div>
+                    <h1>Plateforme Médicale de Greffe</h1>
+                </a>
+                <p>Espace réservé aux professionnels de santé</p>
+            </div>
+
+            {% if error %}
+                <div class="alert alert-error">
+                    <span class="alert-icon">⚠️</span>
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            <form method="post" class="login-form">
+                <div class="form-group">
+                    <label for="email">
+                        <span class="label-icon">📧</span>
+                        Email professionnel
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="_username" 
+                        value="{{ last_username }}" 
+                        required 
+                        autofocus 
+                        placeholder="prenom.nom@hopital.fr"
+                        class="form-input"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <span class="label-icon">🔒</span>
+                        Mot de passe
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="_password" 
+                        required 
+                        placeholder="••••••••"
+                        class="form-input"
+                    >
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="_remember_me">
+                        <span>Rester connecté</span>
+                    </label>
+                    <a href="#" class="forgot-link">Mot de passe oublié ?</a>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button type="submit" class="btn-login">
+                    Se connecter
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <div class="info-box">
+                    <p><strong>🔐 Accès sécurisé</strong></p>
+                    <p>Cette plateforme est réservée aux professionnels de santé habilités. Toutes les connexions sont enregistrées et tracées.</p>
+                </div>
+                <div class="info-box" style="background: #fff3cd; border-left-color: #ffc107;">
+                    <p><strong>💡 Comptes de test (Exercice)</strong></p>
+                    <p style="font-size: 0.85rem;">
+                        <strong>Médecin :</strong> medecin@hopital.fr / password123<br>
+                        <strong>Admin :</strong> admin@hopital.fr / admin123
+                    </p>
+                </div>
+                <div class="contact-support">
+                    <p>Problème de connexion ? <a href="#">Contactez le support IT</a></p>
+                    <p class="small-text">Support disponible 24/7 - Tel: 01 23 45 67 89</p>
+                    <p style="margin-top: 1rem;"><a href="{{ path('app_home') }}" style="color: #0066cc; text-decoration: none;">← Retour à l'accueil</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-sidebar">
+            <div class="sidebar-content">
+                <h3>💡 Informations</h3>
+                <ul class="info-list">
+                    <li>
+                        <strong>Accès au système CRISTAL</strong>
+                        <span>Gestion de la liste nationale d'attente</span>
+                    </li>
+                    <li>
+                        <strong>Dossiers patients sécurisés</strong>
+                        <span>Conformité RGPD et HDS</span>
+                    </li>
+                    <li>
+                        <strong>Alertes temps réel</strong>
+                        <span>Notifications greffons disponibles</span>
+                    </li>
+                    <li>
+                        <strong>Protocoles médicaux</strong>
+                        <span>Guidelines à jour</span>
+                    </li>
+                </ul>
+
+                <div class="quick-access">
+                    <h4>Accès rapide</h4>
+                    <a href="{{ path('app_home') }}" class="quick-link">🏠 Retour à l'accueil</a>
+                    <a href="#" class="quick-link">📞 Astreinte chirurgie</a>
+                    <a href="#" class="quick-link">📋 Protocoles d'urgence</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

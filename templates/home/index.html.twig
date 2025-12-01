@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Centre de Greffe{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <a href="{{ path('app_home') }}" style="color: white; text-decoration: none;">
+                    <h1>🫀 Centre de Greffe</h1>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                    <li><a href="#greffes">Types de Greffes</a></li>
+                    <li><a href="#processus">Processus</a></li>
+                    {% if app.user %}
+                        <li><span style="color: #fff; opacity: 0.8;">Dr. {{ app.user.nom }}</span></li>
+                        <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                    {% else %}
+                        <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="accueil">
+        <div class="hero-content">
+            <h2>Plateforme Médicale de Transplantation</h2>
+            <p>Gestion et coordination des greffes d'organes - Espace professionnel de santé</p>
+            <a href="{{ path('app_login') }}" class="cta-button">Connexion Médecin</a>
+        </div>
+    </section>
+
+    <section class="services" id="greffes">
+        <div class="container">
+            <h2 class="section-title">Modules de Gestion</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">👥</div>
+                    <h3>Gestion des Patients</h3>
+                    <p>Dossiers médicaux, historique, bilans pré-greffe, compatibilité HLA et suivi post-transplantation.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📋</div>
+                    <h3>Liste d'Attente</h3>
+                    <p>Gestion de la liste nationale, critères d'attribution, priorités et matching donneur-receveur.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🫀</div>
+                    <h3>Coordination Greffons</h3>
+                    <p>Disponibilité des organes, transport, timing chirurgical et coordination multi-sites.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🔬</div>
+                    <h3>Résultats d'Analyses</h3>
+                    <p>Laboratoire HLA, cross-match, bilans biologiques et sérologies en temps réel.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>Statistiques & Reporting</h3>
+                    <p>Taux de succès, survie greffon, complications et rapports à l'Agence de Biomédecine.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📱</div>
+                    <h3>Système d'Alerte</h3>
+                    <p>Notifications urgentes, disponibilité greffon, urgences médicales et astreintes chirurgicales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-section" id="processus">
+        <div class="container">
+            <h2 class="section-title">Workflow Médical</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🔍 Évaluation Pré-Greffe</h3>
+                    <p>Protocole d'évaluation complet : bilans cardio-pulmonaire, rénal, hépatique, typage HLA, cross-match et validation collégiale.</p>
+                </div>
+                <div class="info-card">
+                    <h3>📝 Inscription CRISTAL</h3>
+                    <p>Saisie dans le système national CRISTAL, calcul du score d'attribution et mise à jour des priorités médicales.</p>
+                </div>
+                <div class="info-card">
+                    <h3>⚡ Appel Greffon</h3>
+                    <p>Notification automatique, vérification compatibilité, convocation patient et préparation bloc opératoire.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🏥 Procédure Chirurgicale</h3>
+                    <p>Coordination anesthésie, chirurgie de prélèvement et transplantation, monitoring peropératoire continu.</p>
+                </div>
+                <div class="info-card">
+                    <h3>💊 Protocole Immunosuppression</h3>
+                    <p>Induction, traitement d'entretien, monitoring des taux sanguins et ajustements posologiques personnalisés.</p>
+                </div>
+                <div class="info-card">
+                    <h3>📈 Surveillance Post-Op</h3>
+                    <p>Biopsies de surveillance, détection précoce du rejet, gestion complications et optimisation thérapeutique.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Plateforme Médicale</h4>
+                <p>Système de gestion intégré pour les professionnels de la transplantation. Conforme aux directives de l'Agence de Biomédecine et normes HAS.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Accès Rapides</h4>
+                <p>
+                    <a href="#">Base CRISTAL</a><br>
+                    <a href="#">Protocoles</a><br>
+                    <a href="#">Garde & Astreintes</a><br>
+                    <a href="#">Formation Continue</a>
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Professionnel</h4>
+                <p>
+                    <strong>Coordination :</strong> 01 23 45 67 89<br>
+                    <strong>Astreinte chirurgie :</strong> 24/7<br>
+                    <strong>Support IT :</strong> support@greffe.fr<br>
+                    <strong>Biomédecine :</strong> 0 800 20 22 24
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Ressources Médicales</h4>
+                <p>
+                    <a href="#">Guidelines internationales</a><br>
+                    <a href="#">Bibliothèque médicale</a><br>
+                    <a href="#">Congrès & symposiums</a><br>
+                    <a href="#">Recherche clinique</a>
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Plateforme Médicale de Greffe. Réservé aux professionnels de santé | Données de santé hébergées HDS</p>
+        </div>
+    </footer>
+{% endblock %}
