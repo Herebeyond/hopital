@@ -1,0 +1,190 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}
+    <h1 class="title">
+        <i class="fa fa-database"></i> Gestion des Données
+    </h1>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fa fa-check-circle"></i> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+            
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fa fa-exclamation-circle"></i> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <i class="fa fa-chart-bar"></i> Statistiques de la Base de Données
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-2">
+                            <h3 class="text-primary">{{ stats.patients }}</h3>
+                            <p class="text-muted">Patients</p>
+                        </div>
+                        <div class="col-md-2">
+                            <h3 class="text-success">{{ stats.donneurs }}</h3>
+                            <p class="text-muted">Donneurs</p>
+                        </div>
+                        <div class="col-md-2">
+                            <h3 class="text-danger">{{ stats.greffes }}</h3>
+                            <p class="text-muted">Greffes</p>
+                        </div>
+                        <div class="col-md-2">
+                            <h3 class="text-info">{{ stats.utilisateurs }}</h3>
+                            <p class="text-muted">Utilisateurs</p>
+                        </div>
+                        <div class="col-md-2">
+                            <h3 class="text-warning">{{ stats.profils }}</h3>
+                            <p class="text-muted">Profils</p>
+                        </div>
+                        <div class="col-md-2">
+                            <h3 class="text-secondary">28</h3>
+                            <p class="text-muted">Tables</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-info-circle"></i> État de la Base de Données
+                </div>
+                <div class="card-body">
+                    <h5>✅ Tables Principales</h5>
+                    <ul class="list-unstyled">
+                        <li>✅ Profil - Rôles système</li>
+                        <li>✅ Personnel_ope - Personnel opératoire</li>
+                        <li>✅ Donneur - Donneurs (vivants/décédés)</li>
+                        <li>✅ Patient - Patients receveurs</li>
+                        <li>✅ Greffe - Interventions</li>
+                        <li>✅ Utilisateur - Comptes utilisateurs</li>
+                    </ul>
+
+                    <h5 class="mt-3">✅ Tables de Référence</h5>
+                    <ul class="list-unstyled">
+                        <li>✅ Lien_parente - Liens de parenté</li>
+                        <li>✅ Voie_abord - Voies chirurgicales</li>
+                        <li>✅ Cause_deces - Causes de décès</li>
+                        <li>✅ Statut_virologique - Types virologiques</li>
+                        <li>✅ Groupe_HLA - Groupes HLA</li>
+                        <li>✅ Groupe_serologie - Types sérologiques</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-shield-alt"></i> Contraintes Actives
+                </div>
+                <div class="card-body">
+                    <h5>CHECK Constraints</h5>
+                    <ul class="list-unstyled">
+                        <li>✅ Groupes sanguins validés (A+, A-, B+, B-, AB+, AB-, O+, O-)</li>
+                        <li>✅ Dates cohérentes (naissances passées, greffes actuelles)</li>
+                        <li>✅ Valeurs numériques positives</li>
+                        <li>✅ Côtés anatomiques (Gauche/Droit)</li>
+                        <li>✅ Type donneur (vivant/décédé)</li>
+                    </ul>
+
+                    <h5 class="mt-3">Triggers</h5>
+                    <ul class="list-unstyled">
+                        <li>✅ Donneur unique (pas vivant ET décédé)</li>
+                        <li>✅ Greffe non fonctionnelle (date + cause obligatoires)</li>
+                        <li>✅ Protection patient (si greffes associées)</li>
+                    </ul>
+
+                    <h5 class="mt-3">Cascades</h5>
+                    <ul class="list-unstyled">
+                        <li>✅ ON DELETE CASCADE (tables dépendantes)</li>
+                        <li>✅ ON DELETE RESTRICT (entités critiques)</li>
+                        <li>✅ ON UPDATE CASCADE (propagation IDs)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <i class="fa fa-tools"></i> Actions Disponibles
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>Gestion des Entités Principales</h5>
+                            <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\PatientCrudController'}) }}" class="btn btn-primary btn-block mb-2 w-100">
+                                <i class="fa fa-user-injured"></i> Gérer les Patients
+                            </a>
+                            <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\DonneurCrudController'}) }}" class="btn btn-success btn-block mb-2 w-100">
+                                <i class="fa fa-hand-holding-heart"></i> Gérer les Donneurs
+                            </a>
+                            <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\GreffeCrudController'}) }}" class="btn btn-danger btn-block mb-2 w-100">
+                                <i class="fa fa-heart"></i> Gérer les Greffes
+                            </a>
+                        </div>
+
+                        <div class="col-md-4">
+                            <h5>Administration Système</h5>
+                            <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\UtilisateurCrudController'}) }}" class="btn btn-secondary btn-block mb-2 w-100">
+                                <i class="fa fa-users"></i> Gérer les Utilisateurs
+                            </a>
+                            <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\ProfilCrudController'}) }}" class="btn btn-info btn-block mb-2 w-100">
+                                <i class="fa fa-user-tag"></i> Gérer les Profils
+                            </a>
+                        </div>
+
+                        <div class="col-md-4">
+                            <h5>Documentation</h5>
+                            <a href="{{ path('admin') }}" class="btn btn-outline-primary btn-block mb-2 w-100">
+                                <i class="fa fa-home"></i> Tableau de Bord
+                            </a>
+                            <a href="{{ path('app_home') }}" class="btn btn-outline-secondary btn-block mb-2 w-100">
+                                <i class="fa fa-arrow-left"></i> Retour au Site
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+                <h5><i class="fa fa-exclamation-triangle"></i> Note Importante</h5>
+                <p>
+                    La base de données contient 28 tables au total. Les 5 tables principales (Patient, Donneur, Greffe, Utilisateur, Profil) 
+                    sont accessibles via l'interface EasyAdmin. Les autres tables (référence et jonction) sont déjà créées et fonctionnelles 
+                    avec toutes les contraintes et triggers actifs.
+                </p>
+                <p class="mb-0">
+                    <strong>Tables de jonction renommées:</strong> Toto → Greffe_Statut_Virologique, Tota → Greffe_Incompatibilite_HLA, Tatu → Donneur_Serologie
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

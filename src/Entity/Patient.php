@@ -9,11 +9,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PatientRepository::class)]
+#[ORM\Table(name: 'Patient')]
 class Patient
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'id_patient')]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
@@ -35,7 +36,7 @@ class Patient
     private ?string $villeRes = null;
 
     #[ORM\ManyToOne(inversedBy: 'patients')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id_utilisateur', nullable: false)]
     private ?Utilisateur $utilisateur = null;
 
     #[ORM\OneToMany(targetEntity: Greffe::class, mappedBy: 'patient')]

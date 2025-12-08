@@ -8,11 +8,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProfilRepository::class)]
+#[ORM\Table(name: 'Profil')]
 class Profil
 {
     #[ORM\Id]
-    #[ORM\Column(length: 50)]
-    private ?string $id = null;
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id_profil', type: 'integer')]
+    private ?int $id = null;
 
     #[ORM\Column(length: 50)]
     private ?string $role = null;
@@ -25,15 +27,9 @@ class Profil
         $this->utilisateurs = new ArrayCollection();
     }
 
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(string $id): static
-    {
-        $this->id = $id;
-        return $this;
     }
 
     public function getRole(): ?string

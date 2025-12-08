@@ -7,11 +7,13 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DonneurRepository::class)]
+#[ORM\Table(name: 'Donneur')]
 class Donneur
 {
     #[ORM\Id]
-    #[ORM\Column(length: 50)]
-    private ?string $id = null;
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id_donneur', type: 'integer')]
+    private ?int $id = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $nCristal = null;
@@ -34,15 +36,9 @@ class Donneur
     #[ORM\OneToOne(mappedBy: 'donneur', cascade: ['persist', 'remove'])]
     private ?Greffe $greffe = null;
 
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(string $id): static
-    {
-        $this->id = $id;
-        return $this;
     }
 
     public function getNCristal(): ?string

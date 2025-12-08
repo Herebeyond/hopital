@@ -10,11 +10,13 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
+#[ORM\Table(name: 'Utilisateur')]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
-    #[ORM\Column(length: 50)]
-    private ?string $id = null;
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id_utilisateur', type: 'integer')]
+    private ?int $id = null;
 
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
@@ -35,7 +37,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $cp = null;
 
     #[ORM\ManyToMany(targetEntity: Profil::class, inversedBy: 'utilisateurs')]
-    #[ORM\JoinTable(name: 'etre')]
+    #[ORM\JoinTable(
+        name: 'Etre',
+        joinColumns: [new ORM\JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id_utilisateur')],
+        inverseJoinColumns: [new ORM\JoinColumn(name: 'id_profil', referencedColumnName: 'id_profil')]
+    )]
     private Collection $profils;
 
     #[ORM\OneToMany(targetEntity: Patient::class, mappedBy: 'utilisateur')]
@@ -47,15 +53,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->patients = new ArrayCollection();
     }
 
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(string $id): static
-    {
-        $this->id = $id;
-        return $this;
     }
 
     public function getNom(): ?string
