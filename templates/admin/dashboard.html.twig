@@ -1,0 +1,120 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}
+    <h1 class="title">
+        <i class="fa fa-hospital"></i> Tableau de bord - Gestion des Greffes Rénales
+    </h1>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <i class="fa fa-info-circle"></i>
+                <strong>Bienvenue dans l'interface d'administration</strong>
+                <p>Utilisez le menu de gauche pour accéder aux différentes sections de gestion.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card border-primary mb-3">
+                <div class="card-header bg-primary text-white">
+                    <i class="fa fa-user-injured"></i> Patients
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestion des Patients</h5>
+                    <p class="card-text">Gérez les dossiers des patients receveurs de greffe.</p>
+                    <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\PatientCrudController'}) }}" class="btn btn-primary">
+                        Accéder <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-success mb-3">
+                <div class="card-header bg-success text-white">
+                    <i class="fa fa-hand-holding-heart"></i> Donneurs
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestion des Donneurs</h5>
+                    <p class="card-text">Gérez les donneurs d'organes (vivants et décédés).</p>
+                    <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\DonneurCrudController'}) }}" class="btn btn-success">
+                        Accéder <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-danger mb-3">
+                <div class="card-header bg-danger text-white">
+                    <i class="fa fa-heart"></i> Greffes
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestion des Greffes</h5>
+                    <p class="card-text">Enregistrez et suivez les interventions de greffe.</p>
+                    <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\GreffeCrudController'}) }}" class="btn btn-danger">
+                        Accéder <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card border-secondary mb-3">
+                <div class="card-header bg-secondary text-white">
+                    <i class="fa fa-users"></i> Utilisateurs
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestion des Utilisateurs</h5>
+                    <p class="card-text">Gérez les comptes utilisateurs du système.</p>
+                    <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\UtilisateurCrudController'}) }}" class="btn btn-secondary">
+                        Accéder <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card border-info mb-3">
+                <div class="card-header bg-info text-white">
+                    <i class="fa fa-user-tag"></i> Profils/Rôles
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestion des Profils</h5>
+                    <p class="card-text">Gérez les rôles et permissions.</p>
+                    <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\ProfilCrudController'}) }}" class="btn btn-info">
+                        Accéder <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-info-circle"></i> Informations
+                </div>
+                <div class="card-body">
+                    <h6><strong>Base de données:</strong></h6>
+                    <ul>
+                        <li>✅ CHECK Constraints activés</li>
+                        <li>✅ Triggers de validation en place</li>
+                        <li>✅ Règles de cascade configurées</li>
+                        <li>✅ Intégrité référentielle assurée</li>
+                    </ul>
+                    <p class="text-muted mb-0">
+                        <small>Toutes les modifications sont enregistrées avec contrôle d'intégrité.</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% if value is not empty %}
+    <div class="badge-list">
+        {% for greffe in value %}
+            <a href="{{ ea_url().setController('App\\Controller\\Admin\\GreffeCrudController').setAction('detail').setEntityId(greffe.id) }}" 
+               class="badge badge-info mb-1" 
+               title="Voir détails">
+                Greffe #{{ greffe.id }} - {{ greffe.dateGreffe|date('d/m/Y') }}
+            </a>
+        {% endfor %}
+    </div>
+    <small class="text-muted">{{ value|length }} greffe(s)</small>
+{% else %}
+    <span class="text-muted">Aucune greffe</span>
+{% endif %}

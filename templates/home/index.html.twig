@@ -34,7 +34,13 @@
         <div class="hero-content">
             <h2>Plateforme Médicale de Transplantation</h2>
             <p>Gestion et coordination des greffes d'organes - Espace professionnel de santé</p>
-            <a href="{{ path('app_login') }}" class="cta-button">Connexion Médecin</a>
+            {% if app.user %}
+                <a href="{{ path('admin') }}" class="cta-button">
+                    <i class="fa fa-cog"></i> Interface d'Administration
+                </a>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="cta-button">Connexion Médecin</a>
+            {% endif %}
         </div>
     </section>
 

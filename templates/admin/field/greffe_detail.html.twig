@@ -1,0 +1,8 @@
+{% if value is not empty %}
+    <a href="{{ ea_url().setController('App\\Controller\\Admin\\GreffeCrudController').setAction('detail').setEntityId(value.id) }}" 
+       class="btn btn-sm btn-info">
+        <i class="fa fa-heart"></i> Greffe #{{ value.id }} - {{ value.dateGreffe|date('d/m/Y') }}
+    </a>
+{% else %}
+    <span class="text-muted">Pas de greffe associée</span>
+{% endif %}

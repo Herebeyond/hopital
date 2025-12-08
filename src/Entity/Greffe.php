@@ -7,11 +7,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GreffeRepository::class)]
+#[ORM\Table(name: 'Greffe')]
 class Greffe
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'id_greffon')]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -69,11 +70,11 @@ class Greffe
     private ?bool $dialyse = null;
 
     #[ORM\OneToOne(inversedBy: 'greffe', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'id_donneur', referencedColumnName: 'id_donneur', nullable: false)]
     private ?Donneur $donneur = null;
 
     #[ORM\ManyToOne(inversedBy: 'greffes')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'id_patient', referencedColumnName: 'id_patient', nullable: false)]
     private ?Patient $patient = null;
 
     public function getId(): ?int
