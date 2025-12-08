@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Patients{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <a href="{{ path('app_home') }}" style="color: white; text-decoration: none;">
+                    <h1>🫀 Centre de Greffe</h1>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li class="dropdown">
+                        <a href="#">Types de Greffes ▾</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#coeur">Greffe du Cœur</a></li>
+                            <li><a href="#foie">Greffe du Foie</a></li>
+                            <li><a href="#rein">Greffe du Rein</a></li>
+                            <li><a href="#poumon">Greffe du Poumon</a></li>
+                            <li><a href="#pancreas">Greffe du Pancréas</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#processus">Processus</a></li>
+
+                    {% if app.user %}
+                        <li><span style="color: #fff; opacity: 0.8;">Dr. {{ app.user.nom }}</span></li>
+                        <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                    {% else %}
+                        <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== Contenu spécifique à la page patient ===== -->
+    <section style="padding: 120px 40px; color: white;">
+        <h2>Gestion des Patients</h2>
+        <p>Ici, tu pourras afficher la liste des patients, ajouter un patient, consulter les dossiers, etc.</p>
+    </section>
+
+{% endblock %}
