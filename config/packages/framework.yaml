@@ -1,13 +1,23 @@
-# see https://symfony.com/doc/current/reference/configuration/framework.html
+# config/packages/framework.yaml
 framework:
     secret: '%env(APP_SECRET)%'
 
-    # Note that the session will be started ONLY if you read or write from it.
+    # La session est activée avec les valeurs par défaut :
+    # cookie_secure = auto, cookie_samesite = lax
     session: true
+
+    # Trusted proxies (Ngrok, reverse proxies)
+    trusted_proxies: '127.0.0.1,REMOTE_ADDR'
+    trusted_headers:
+        - x-forwarded-for
+        - x-forwarded-proto
+        - x-forwarded-port
+        - x-forwarded-host
 
     #esi: true
     #fragments: true
 
+# Configuration spécifique aux tests
 when@test:
     framework:
         test: true

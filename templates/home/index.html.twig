@@ -34,10 +34,15 @@
             <h2>Plateforme Médicale de Transplantation</h2>
             <p>Gestion et coordination des greffes d'organes - Espace professionnel de santé</p>
             {% if app.user %}
-                <a href="{{ path('admin') }}" class="cta-button">
-                    <i class="fa fa-cog"></i> Interface d'Administration
-                </a>
-            {% else %} <!-- TODO: useless because if you're on the page, you're already connected -->
+                <div style="margin-top: 20px;">
+                    <a href="{{ path('medical_dashboard') }}" class="cta-button" style="margin-right: 10px;">
+                        <i class="fa fa-hospital"></i> Tableau de Bord Médical
+                    </a>
+                    <a href="{{ path('admin') }}" class="cta-button">
+                        <i class="fa fa-cog"></i> Interface d'Administration
+                    </a>
+                </div>
+            {% else %}
                 <a href="{{ path('app_login') }}" class="cta-button">Connexion Médecin</a>
             {% endif %}
         </div>
@@ -49,23 +54,23 @@
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-icon">👥</div>
-                    <h3><a href="{{ path('app_patients') }}" style="color:#0066cc; text-decoration:none;">Gestion des Patients</a></h3>
+                    <h3><a href="{{ path('medical_patients') }}" style="color:#0066cc; text-decoration:none;">Gestion des Patients</a></h3>
                     <p>Dossiers médicaux, historique, bilans pré-greffe, compatibilité HLA et suivi post-transplantation.</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">📋</div>
-                    <h3><a href="{{ path('app_liste_att') }}" style="color:#0066cc; text-decoration:none;">Liste d'attente</a></h3>
-                    <p>Gestion de la liste nationale, critères d'attribution, priorités et matching donneur-receveur.</p>
-                </div>
-                <div class="service-card">
                     <div class="service-icon">🫀</div>
-                    <h3><a href="{{ path('app_greffons') }}" style="color:#0066cc; text-decoration:none;">Coordination Greffons</a></h3>
-                    <p>Disponibilité des organes, transport, timing chirurgical et coordination multi-sites.</p>
+                    <h3><a href="{{ path('medical_greffes') }}" style="color:#0066cc; text-decoration:none;">Gestion des Greffes</a></h3>
+                    <p>Intervention chirurgicale, suivi post-opératoire, compatibilité immunologique et résultats virologiques.</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">🔬</div>
-                    <h3><a href="{{ path('app_analyse') }}" style="color:#0066cc; text-decoration:none;">Résultats d'Analyses</a></h3>
-                    <p>Laboratoire HLA, cross-match, bilans biologiques et sérologies en temps réel.</p>
+                    <div class="service-icon">💝</div>
+                    <h3><a href="{{ path('medical_donneurs') }}" style="color:#0066cc; text-decoration:none;">Gestion des Donneurs</a></h3>
+                    <p>Donneurs vivants et décédés, typage HLA, sérologies et coordination des prélèvements.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">�️</div>
+                    <h3><a href="{{ path('medical_references') }}" style="color:#0066cc; text-decoration:none;">Données de Référence</a></h3>
+                    <p>Référentiels médicaux, protocoles immunosuppresseurs, risques et classifications HLA.</p>
                 </div>
             </div>
         </div>
