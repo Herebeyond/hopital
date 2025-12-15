@@ -338,6 +338,9 @@ final class Version20251208073655 extends AbstractMigration
             INDEX IDX_75EA56E016BA31DB (delivered_at),
             PRIMARY KEY(id)
         ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        
+        // Insert default test user
+        $this->addSql("INSERT INTO `Utilisateur`(`Nom`, `Prenom`, `Email`, `Password`, `Ville_res`, `CP`) VALUES ('Gamji','Sam','test@test.fr','\$2y\$13\$/PISpzkjXhLjsT0nFwtNK.VGJL3MSDeR5laanXKN.4mqbIzrZ9K9m','Limoges','87000')");
     }
 
     public function down(Schema $schema): void
