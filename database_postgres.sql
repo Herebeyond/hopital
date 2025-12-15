@@ -45,15 +45,15 @@ DROP TABLE IF EXISTS Voie_abord CASCADE;
 DROP TABLE IF EXISTS Lien_parente CASCADE;
 DROP TABLE IF EXISTS Donneur CASCADE;
 DROP TABLE IF EXISTS Personnel_ope CASCADE;
-DROP TABLE IF EXISTS Profil CASCADE;
+DROP TABLE IF EXISTS Role CASCADE;
 
 -- ============================================
--- Table des profils utilisateurs (rôles système)
+-- Table des rôles utilisateurs (rôles système)
 -- ============================================
-CREATE TABLE Profil(
-   id_profil VARCHAR(50),
+CREATE TABLE Role(
+   id_role VARCHAR(50),
    Role VARCHAR(50) NOT NULL,
-   PRIMARY KEY(id_profil)
+   PRIMARY KEY(id_role)
 );
 
 -- ============================================
@@ -366,10 +366,10 @@ CREATE TABLE Greffe(
 -- ============================================
 CREATE TABLE Etre(
    id_utilisateur VARCHAR(50),
-   id_profil VARCHAR(50),
-   PRIMARY KEY(id_utilisateur, id_profil),
+   id_role VARCHAR(50),
+   PRIMARY KEY(id_utilisateur, id_role),
    FOREIGN KEY(id_utilisateur) REFERENCES Utilisateur(id_utilisateur) ON DELETE CASCADE ON UPDATE CASCADE,
-   FOREIGN KEY(id_profil) REFERENCES Profil(id_profil) ON DELETE CASCADE ON UPDATE CASCADE
+   FOREIGN KEY(id_role) REFERENCES Role(id_role) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- ============================================

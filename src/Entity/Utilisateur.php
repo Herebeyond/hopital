@@ -40,7 +40,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinTable(
         name: 'Etre',
         joinColumns: [new ORM\JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id_utilisateur')],
-        inverseJoinColumns: [new ORM\JoinColumn(name: 'id_profil', referencedColumnName: 'id_profil')]
+        inverseJoinColumns: [new ORM\JoinColumn(name: 'id_role', referencedColumnName: 'id_role')]
     )]
     private Collection $profils;
 

@@ -8,12 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProfilRepository::class)]
-#[ORM\Table(name: 'Profil')]
+#[ORM\Table(name: 'Role')]
 class Profil
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'id_profil', type: 'integer')]
+    #[ORM\Column(name: 'id_role', type: 'integer')]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
