@@ -1,0 +1,348 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails Greffe #{{ greffe.id_greffon }}{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h1 class="h2"><i class="fas fa-heart"></i> Dossier de Greffe #{{ greffe.id_greffon }}</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('medical_dashboard') }}">Tableau de bord</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('medical_greffes') }}">Greffes</a></li>
+                    <li class="breadcrumb-item active">#{{ greffe.id_greffon }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-6 text-end">
+            {% if is_granted('ROLE_DOCTOR') %}
+            <button class="btn btn-warning me-2" disabled title="Fonctionnalité à venir">
+                <i class="fas fa-edit"></i> Modifier
+            </button>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+            <button class="btn btn-danger me-2" disabled title="Fonctionnalité à venir">
+                <i class="fas fa-trash"></i> Supprimer
+            </button>
+            {% endif %}
+            <a href="{{ path('medical_greffes') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+        </div>
+    </div>
+
+    {# Status Banner #}
+    <div class="row mb-4">
+        <div class="col-12">
+            {% if greffe.Greffon_fonctionnel %}
+            <div class="alert alert-success">
+                <h4><i class="fas fa-check-circle"></i> Greffon Fonctionnel</h4>
+                <p class="mb-0">Ce greffon est actuellement fonctionnel.</p>
+            </div>
+            {% else %}
+            <div class="alert alert-danger">
+                <h4><i class="fas fa-exclamation-triangle"></i> Greffon Non Fonctionnel</h4>
+                <p class="mb-0"><strong>Date de fin:</strong> {{ greffe.Date_heure_fin|date('d/m/Y H:i') }}</p>
+                <p class="mb-0"><strong>Cause:</strong> {{ greffe.Cause_fin_fonct_gref }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {# General Information #}
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-info-circle"></i> Informations Générales</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th width="40%">ID Greffe:</th>
+                            <td><strong>#{{ greffe.id_greffon }}</strong></td>
+                        </tr>
+                        <tr>
+                            <th>Date de Greffe:</th>
+                            <td>{{ greffe.Date_greffe|date('d/m/Y') }}</td>
+                        </tr>
+                        <tr>
+                            <th>Rang de Greffe:</th>
+                            <td><span class="badge bg-info">{{ greffe.Rang_greffe }}</span></td>
+                        </tr>
+                        <tr>
+                            <th>Type de Greffe:</th>
+                            <td>{{ greffe.Type_greffe }}</td>
+                        </tr>
+                        <tr>
+                            <th>Type Donneur:</th>
+                            <td>
+                                {% if greffe.Type_donneur == 'vivant' %}
+                                    <span class="badge bg-info">Donneur Vivant</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Donneur Décédé</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>N° Cristal Donneur:</th>
+                            <td><span class="badge bg-dark">{{ greffe.N_Cristal }}</span></td>
+                        </tr>
+                        <tr>
+                            <th>Groupe Sanguin Donneur:</th>
+                            <td>
+                                {% if greffe.donneur_groupe %}
+                                    <span class="badge bg-danger fs-6">{{ greffe.donneur_groupe }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-user-injured"></i> Informations Patient</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th width="40%">Patient:</th>
+                            <td>
+                                <strong>{{ greffe.patient_nom }} {{ greffe.patient_prenom }}</strong>
+                                <a href="{{ path('medical_patient_detail', {id: greffe.id_patient}) }}" 
+                                   class="btn btn-sm btn-outline-primary ms-2">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>N° Dossier:</th>
+                            <td><span class="badge bg-secondary">{{ greffe.Ndossier }}</span></td>
+                        </tr>
+                        <tr>
+                            <th>Date de Naissance:</th>
+                            <td>{{ greffe.patient_naissance|date('d/m/Y') }}</td>
+                        </tr>
+                        <tr>
+                            <th>Dialyse Pré-Greffe:</th>
+                            <td>
+                                {% if greffe.Dialyse %}
+                                    <span class="badge bg-warning">Oui</span>
+                                    {% if greffe.Date_derniere_dialyse %}
+                                        <br><small>Dernière: {{ greffe.Date_derniere_dialyse }}</small>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="badge bg-success">Non</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Surgical Details #}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-procedures"></i> Détails Chirurgicaux</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th width="50%">Côté Prélèvement Rein:</th>
+                                    <td>{{ greffe.Cote_prelevement_rein }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Côté Transplantation:</th>
+                                    <td>{{ greffe.Cote_transplantation_rein }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date Déclampage:</th>
+                                    <td>{{ greffe.Date_declampage|date('d/m/Y') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Heure Déclampage:</th>
+                                    <td>{{ greffe.Heure_declampage }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th width="50%">Ischémie Totale:</th>
+                                    <td>{{ greffe.Ischémie_total }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Durée Anastomoses:</th>
+                                    <td>{{ greffe.Duree_anastomoses }} min</td>
+                                </tr>
+                                <tr>
+                                    <th>Sonde JJ:</th>
+                                    <td>
+                                        {% if greffe.Sonde_jj %}
+                                            <span class="badge bg-success">Oui</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Non</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    {% if greffe.Compte_rendu_operatoire %}
+                    <hr>
+                    <h6><i class="fas fa-file-medical"></i> Compte Rendu Opératoire:</h6>
+                    <p class="bg-light p-3 border rounded">{{ greffe.Compte_rendu_operatoire }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Immunological Info #}
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-shield-virus"></i> Informations Immunologiques</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th width="50%">Risque Immunologique:</th>
+                            <td><span class="badge bg-warning text-dark">{{ greffe.Libelle_immunologique }}</span></td>
+                        </tr>
+                        {% if greffe.Commentaire_risque %}
+                        <tr>
+                            <th>Commentaire Risque:</th>
+                            <td><small>{{ greffe.Commentaire_risque }}</small></td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>Conditionnement:</th>
+                            <td>{{ greffe.Libelle_immunosupresseur }}</td>
+                        </tr>
+                        {% if greffe.Commentaire_immunosupresseur %}
+                        <tr>
+                            <th>Commentaire:</th>
+                            <td><small>{{ greffe.Commentaire_immunosupresseur }}</small></td>
+                        </tr>
+                        {% endif %}
+                    </table>
+
+                    <hr>
+                    <h6><i class="fas fa-dna"></i> Incompatibilités HLA:</h6>
+                    {% if hla_incompatibilites|length > 0 %}
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Type HLA</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for hla in hla_incompatibilites %}
+                            <tr>
+                                <td><strong>{{ hla.Libelle_HLA }}</strong></td>
+                                <td>
+                                    {% if hla.Libelle_val_HLA == 'Compatible' %}
+                                        <span class="badge bg-success">{{ hla.Libelle_val_HLA }}</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">{{ hla.Libelle_val_HLA }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-muted text-center mb-0">Aucune incompatibilité HLA enregistrée</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fas fa-virus"></i> Statuts Virologiques</h5>
+                </div>
+                <div class="card-body">
+                    {% if statuts_virologiques|length > 0 %}
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Virus</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sv in statuts_virologiques %}
+                            <tr>
+                                <td><strong>{{ sv.Libelle_SV }}</strong></td>
+                                <td>
+                                    {% if sv.Libelle_val_statut == 'Positif' %}
+                                        <span class="badge bg-danger">{{ sv.Libelle_val_statut }}</span>
+                                    {% elseif sv.Libelle_val_statut == 'Négatif' %}
+                                        <span class="badge bg-success">{{ sv.Libelle_val_statut }}</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">{{ sv.Libelle_val_statut }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-muted text-center mb-0">Aucun statut virologique enregistré</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-flask"></i> Protocole de Recherche</h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <strong>Protocole:</strong> 
+                        {% if greffe.Protocole %}
+                            <span class="badge bg-success">Oui</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Non</span>
+                        {% endif %}
+                    </p>
+                    {% if greffe.Commentaire_protocole %}
+                    <p><strong>Commentaire:</strong> {{ greffe.Commentaire_protocole }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Additional Comments #}
+    {% if greffe.Commentaire %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-comment"></i> Commentaires</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-0">{{ greffe.Commentaire }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

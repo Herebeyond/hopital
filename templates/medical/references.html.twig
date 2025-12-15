@@ -1,0 +1,320 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Données de Référence{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h1 class="h2"><i class="fas fa-database"></i> Données de Référence</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('medical_dashboard') }}">Tableau de bord</a></li>
+                    <li class="breadcrumb-item active">Données de Référence</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-6 text-end">
+            {% if is_granted('ROLE_ADMIN') %}
+            <div class="alert alert-info d-inline-block me-2 mb-0 py-1 px-2">
+                <small><i class="fas fa-info-circle"></i> Modification des données de référence réservée aux administrateurs</small>
+            </div>
+            {% endif %}
+            <a href="{{ path('medical_dashboard') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Retour
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        {# Voies d'abord #}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-cut"></i> Voies d'Abord Chirurgicales</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Libellé</th>
+                                    <th>Valeur</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data.voies_abord %}
+                                <tr>
+                                    <td><small>{{ item.id_voie }}</small></td>
+                                    <td>{{ item.Lib_voie }}</td>
+                                    <td><small>{{ item.Valeur }}</small></td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="3" class="text-center text-muted">Aucune donnée</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Causes de décès #}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="fas fa-cross"></i> Causes de Décès</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Libellé</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data.causes_deces %}
+                                <tr>
+                                    <td><small>{{ item.id_deces }}</small></td>
+                                    <td>{{ item.Lib_deces }}</td>
+                                    <td><small>{{ item.Description }}</small></td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="3" class="text-center text-muted">Aucune donnée</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Liens de parenté #}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-users"></i> Liens de Parenté</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Libellé</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data.liens_parente %}
+                                <tr>
+                                    <td><small>{{ item.id_lien }}</small></td>
+                                    <td>{{ item.Lib_Lien }}</td>
+                                    <td><small>{{ item.Description }}</small></td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="3" class="text-center text-muted">Aucune donnée</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Risques immunologiques #}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-shield-virus"></i> Risques Immunologiques</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Libellé</th>
+                                    <th>Commentaire</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data.risques_immunologiques %}
+                                <tr>
+                                    <td><small>{{ item.id_immunologique }}</small></td>
+                                    <td>{{ item.Libelle_immunologique }}</td>
+                                    <td><small>{{ item.Commentaire_risque }}</small></td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="3" class="text-center text-muted">Aucune donnée</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Conditionnements immunosuppresseurs #}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-pills"></i> Conditionnements Immunosuppresseurs</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Libellé</th>
+                                    <th>Commentaire</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data.conditionnements %}
+                                <tr>
+                                    <td><small>{{ item.id_immunosupresseur }}</small></td>
+                                    <td>{{ item.Libelle_immunosupresseur }}</td>
+                                    <td><small>{{ item.Commentaire_immunosupresseur }}</small></td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="3" class="text-center text-muted">Aucune donnée</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Groupes HLA #}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-dna"></i> Groupes HLA</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Libellé</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data.groupes_hla %}
+                                <tr>
+                                    <td><small>{{ item.id_groupe_HLA }}</small></td>
+                                    <td>{{ item.Libelle_groupe_HLA }}</td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="2" class="text-center text-muted">Aucune donnée</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Incompatibilités HLA #}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Types d'Incompatibilités HLA</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Libellé</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data.incompatibilites_hla %}
+                                <tr>
+                                    <td><small>{{ item.id_HLA }}</small></td>
+                                    <td>{{ item.Libelle_HLA }}</td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="2" class="text-center text-muted">Aucune donnée</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Statuts virologiques #}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header" style="background-color: #6f42c1; color: white;">
+                    <h5 class="mb-0"><i class="fas fa-virus"></i> Statuts Virologiques</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Libellé</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data.statuts_virologiques %}
+                                <tr>
+                                    <td><small>{{ item.id_SV }}</small></td>
+                                    <td>{{ item.Libelle_SV }}</td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="2" class="text-center text-muted">Aucune donnée</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Groupes de sérologie #}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header" style="background-color: #fd7e14; color: white;">
+                    <h5 class="mb-0"><i class="fas fa-vial"></i> Groupes de Sérologie</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Libellé</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data.groupes_serologie %}
+                                <tr>
+                                    <td><small>{{ item.id_serologie }}</small></td>
+                                    <td>{{ item.Libelle_serologie }}</td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="2" class="text-center text-muted">Aucune donnée</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
