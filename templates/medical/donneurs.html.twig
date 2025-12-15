@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Donneurs{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h1 class="h2"><i class="fas fa-hand-holding-heart"></i> Gestion des Donneurs</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('medical_dashboard') }}">Tableau de bord</a></li>
+                    <li class="breadcrumb-item active">Donneurs</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-6 text-end">
+            {% if is_granted('ROLE_DOCTOR') %}
+            <button class="btn btn-success me-2" disabled title="Fonctionnalité à venir">
+                <i class="fas fa-plus"></i> Ajouter un Donneur
+            </button>
+            {% endif %}
+            <a href="{{ path('medical_dashboard') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Retour
+            </a>
+        </div>
+    </div>
+
+    {# Filters #}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" action="{{ path('medical_donneurs') }}">
+                        <div class="row g-2">
+                            <div class="col-md-3">
+                                <select name="type" class="form-select" onchange="this.form.submit()">
+                                    <option value="all" {% if type == 'all' %}selected{% endif %}>Tous les donneurs</option>
+                                    <option value="vivant" {% if type == 'vivant' %}selected{% endif %}>Donneurs vivants</option>
+                                    <option value="decede" {% if type == 'decede' %}selected{% endif %}>Donneurs décédés</option>
+                                </select>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <input type="text" name="search" class="form-control" 
+                                           placeholder="Rechercher par ID, N° Cristal, nom ou prénom..." 
+                                           value="{{ search }}">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fas fa-search"></i> Rechercher
+                                    </button>
+                                    {% if search or type != 'all' %}
+                                    <a href="{{ path('medical_donneurs') }}" class="btn btn-outline-secondary">
+                                        <i class="fas fa-times"></i> Réinitialiser
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Donors List #}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-list"></i> Liste des Donneurs ({{ donneurs|length }})</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>N° Cristal</th>
+                                    {% if type == 'vivant' or type == 'all' %}
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    {% endif %}
+                                    {% if type == 'vivant' %}
+                                    <th>Lien Parenté</th>
+                                    {% endif %}
+                                    {% if type == 'decede' %}
+                                    <th>Cause Décès</th>
+                                    <th>Ville Origine</th>
+                                    {% endif %}
+                                    <th>Groupe Sanguin</th>
+                                    <th>Sexe</th>
+                                    <th>Âge</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for donneur in donneurs %}
+                                <tr>
+                                    <td><strong>{{ donneur.id_donneur }}</strong></td>
+                                    <td>
+                                        {% if donneur.type_donneur == 'vivant' %}
+                                            <span class="badge bg-info">Vivant</span>
+                                        {% elseif donneur.type_donneur == 'décédé' %}
+                                            <span class="badge bg-secondary">Décédé</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">Inconnu</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ donneur.N_Cristal }}</td>
+                                    {% if type == 'vivant' or type == 'all' %}
+                                    <td>{{ donneur.Nom }}</td>
+                                    <td>{{ donneur.Prenom }}</td>
+                                    {% endif %}
+                                    {% if type == 'vivant' %}
+                                    <td><small>{{ donneur.Lib_Lien }}</small></td>
+                                    {% endif %}
+                                    {% if type == 'decede' %}
+                                    <td><small>{{ donneur.Lib_deces }}</small></td>
+                                    <td>{{ donneur.Ville_origine }}</td>
+                                    {% endif %}
+                                    <td>
+                                        {% if donneur.G_sanguin %}
+                                            <span class="badge bg-danger">{{ donneur.G_sanguin }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if donneur.Sexe == 1 %}
+                                            <i class="fas fa-mars text-primary"></i> H
+                                        {% elseif donneur.Sexe == 0 %}
+                                            <i class="fas fa-venus text-danger"></i> F
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if donneur.Age %}
+                                            {{ donneur.Age|date('d/m/Y') }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('medical_donneur_detail', {id: donneur.id_donneur}) }}" 
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i> Détails
+                                        </a>
+                                        {% if is_granted('ROLE_DOCTOR') %}
+                                        <button class="btn btn-sm btn-outline-warning ms-1" disabled title="Fonctionnalité à venir">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="10" class="text-center text-muted">
+                                        {% if search %}
+                                            Aucun donneur trouvé pour "{{ search }}"
+                                        {% else %}
+                                            Aucun donneur enregistré
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

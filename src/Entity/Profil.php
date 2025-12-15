@@ -16,7 +16,7 @@ class Profil
     #[ORM\Column(name: 'id_profil', type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $role = null;
 
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'profils')]
@@ -32,9 +32,24 @@ class Profil
         return $this->id;
     }
 
+    /**
+     * Get the role string from the JSON array stored in database
+     * Database stores: ["ROLE_ADMIN"], this method returns: ROLE_ADMIN
+     */
     public function getRole(): ?string
     {
-        return $this->role;
+        if ($this->role === null) {
+            return null;
+        }
+        
+        // If it's already a string (not JSON), return it
+        if (!str_starts_with($this->role, '[')) {
+            return $this->role;
+        }
+        
+        // Decode JSON array and return the first element
+        $decoded = json_decode($this->role, true);
+        return is_array($decoded) && !empty($decoded) ? $decoded[0] : $this->role;
     }
 
     public function setRole(string $role): static

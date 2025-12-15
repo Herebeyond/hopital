@@ -5,6 +5,15 @@ security:
         App\Entity\Utilisateur:
             algorithm: auto
     
+    # Role hierarchy - roles inherit from each other
+    # ROLE_ADMIN has all permissions of ROLE_DOCTOR, ROLE_NURSE, and ROLE_USER
+    # ROLE_DOCTOR has all permissions of ROLE_USER
+    # ROLE_NURSE has all permissions of ROLE_USER
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_DOCTOR, ROLE_NURSE, ROLE_USER]
+        ROLE_DOCTOR: [ROLE_USER]
+        ROLE_NURSE: [ROLE_USER]
+    
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         app_user_provider:
